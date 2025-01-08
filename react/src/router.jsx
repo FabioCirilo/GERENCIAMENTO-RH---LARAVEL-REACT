@@ -12,76 +12,78 @@ import DepartamentoFuncionarios from "./views/departamentos/DepartamentoFunciona
 import FormDepartamento from "./views/departamentos/FormDepartamento";
 import NOtFund from "./components/NOtFund";
 import Pontos from "./views/ponto/pontos";
+import { Adicionar } from "./components/departamento/adicionar";
 
 const router = createBrowserRouter([
     {
-        path: '/',
+        path: "/",
         element: <DefaultLayout />,
         children: [
             {
-                path: '/',
-                element: <Dashboard />
+                path: "/",
+                element: <Dashboard />,
             },
             {
-                path: '/dashboard',
-                element: <Dashboard />
+                path: "/dashboard",
+                element: <Dashboard />,
             },
             {
-                path: '/funcionarios',
-                element: <Funcionarios />
+                path: "/funcionarios",
+                element: <Funcionarios />,
             },
             {
-                path: '/funcionario/novo',
-                element: <CreateFuncionario />
+                path: "/funcionario/novo",
+                element: <CreateFuncionario />,
             },
             {
-                path: '/funcionario/:id',
-                element: <FuncionarioPerfil />
+                path: "/funcionario/:id",
+                element: <FuncionarioPerfil />,
             },
             {
-                path: '/departamentos',
-                element: <Departamentos />
+                path: "/departamentos",
+                element: <Departamentos />,
             },
             {
-                path: '/departamento/:id',
-                element: <DepartamentoFuncionarios />
+                path: "/departamento/:id",
+                element: <DepartamentoFuncionarios />,
             },
             {
-                path: '/departamentos/novo',
-                element: <FormDepartamento />
+                path: "/departamentos/novo",
+                element: <FormDepartamento />,
             },
             {
-                path: '/departamentos/atualizar/:id',
-                element: <FormDepartamento />
+                path: "/departamentos/adicionar",
+                element: <Adicionar />,
             },
             {
-                path: '/pontos',
-                element: <Pontos />
+                path: "/departamentos/atualizar/:id",
+                element: <FormDepartamento />,
             },
             {
-                path: '*',
-                element: <NOtFund />
-            }
-
-        ]
+                path: "/pontos",
+                element: <Pontos />,
+            },
+            {
+                path: "*",
+                element: <NOtFund />,
+            },
+        ],
     },
 
     {
-        path: '/',
+        path: "/",
         element: <GuestLayout />,
         children: [
             {
-                path: '/login',
-                element: <Login />
+                path: "/login",
+                element: <Login />,
             },
             {
-                path: '/signup',
-                element: <Signup />
-            }
-        ]
+                path: "/signup",
+                element: <Signup />,
+            },
+        ],
     },
-
-])
-
+]);
 
 export default router;
