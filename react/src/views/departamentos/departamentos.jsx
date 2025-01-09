@@ -43,12 +43,19 @@ export default function departamantos() {
         getDepartamentos();
     }, []);
 
+    const contarDepartamentos = () => {
+        return departamentos.length;
+    };
+
     return (
         <div className="py-4 px-8">
             <div className="flex justify-between items-center">
                 <h1 className="text-gray-500 text-[30px] font-light py-4 dark:text-white">
                     Departamentos{" "}
-                    <span className="text-gray-400 text-base"> ({0})</span>
+                    <span className="text-gray-400 text-base">
+                        {" "}
+                        ({contarDepartamentos()})
+                    </span>
                 </h1>
                 <div className="py-4">
                     <Link
