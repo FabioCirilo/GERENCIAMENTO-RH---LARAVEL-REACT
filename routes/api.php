@@ -6,6 +6,7 @@ use App\http\Controllers\Api\AuthController;
 use App\http\Controllers\Api\FuncionarioController;
 use App\http\Controllers\Api\DepartamentoController;
 use App\http\Controllers\Api\PontosController;
+use App\Http\Controllers\ConfigurarResponsavelController;
 
 // Authentication
 Route::post('/signup', [AuthController::class, 'signup']);
@@ -19,6 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/funcionarios', FuncionarioController::class);
     Route::apiResource('/departmentos', DepartamentoController::class);
     Route::apiResource('/pontos', PontosController::class);
+    Route::post('/departamento/assign-user', [DepartamentoController::class, 'assignUser'],);
 
 
 });

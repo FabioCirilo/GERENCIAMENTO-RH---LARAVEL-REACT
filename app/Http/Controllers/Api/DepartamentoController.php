@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Departamento;
-use DB;
 use App\Http\Resources\DepartamentoResource;
 use App\Http\Requests\DepartamentoRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DepartamentoController extends Controller
 {
@@ -32,6 +32,26 @@ class DepartamentoController extends Controller
     }
 
 
+    public function assignUser(Request $request){
+
+        $funcioID = $request->input('funcionario_id');
+        $departID = $request->input('departamento_id');
+
+       try {
+        if (!$funcioID && !$departID) {
+            return response()->json(["success" => false, "message" => "Dados nao processaveis"], 422);
+        }
+        DB::table('departamento_responsavels')->insert([
+            'id_funcionario' => $funcioID,
+            'id_departamento' => $departID,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
+        return response()->json(["success" => true, "message" => "Funcionari assignado ao departamento"], 200);
+       } catch (\Exception $e) {
+        return response()->json(["success" => false, "message" => "Erro a assignar funcionario ao departamento"], 500);
+       }
+    }
 
     public function store(DepartamentoRequest $request)
     {

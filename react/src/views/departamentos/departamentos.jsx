@@ -80,6 +80,7 @@ export default function departamantos() {
                             ID={departamen.id}
                             Nome={departamen.nome}
                             responsavel={departamen.chefia[0]}
+                            refetchList={getDepartamentos}
                         />
                     ))}
             </div>

@@ -12,7 +12,6 @@ import DepartamentoFuncionarios from "./views/departamentos/DepartamentoFunciona
 import FormDepartamento from "./views/departamentos/FormDepartamento";
 import NOtFund from "./components/NOtFund";
 import Pontos from "./views/ponto/pontos";
-import { Adicionar } from "./components/departamento/adicionar";
 
 const router = createBrowserRouter([
     {
@@ -51,10 +50,7 @@ const router = createBrowserRouter([
                 path: "/departamentos/novo",
                 element: <FormDepartamento />,
             },
-            {
-                path: "/departamentos/adicionar",
-                element: <Adicionar />,
-            },
+
             {
                 path: "/departamentos/atualizar/:id",
                 element: <FormDepartamento />,
