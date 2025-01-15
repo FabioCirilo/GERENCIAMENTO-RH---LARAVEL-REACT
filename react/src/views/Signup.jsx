@@ -4,7 +4,6 @@ import axiosClient from "../axios-client";
 import { useStateContext } from "../context/ContextProvider";
 
 export default function Signup() {
-
     const firstNameRef = useRef();
     const lastNameRef = useRef();
     const emailRef = useRef();
@@ -17,42 +16,46 @@ export default function Signup() {
         e.preventDefault();
 
         const payload = {
-
             firstName: firstNameRef.current.value,
             lastName: lastNameRef.current.value,
             email: emailRef.current.value,
-            password: passswordRef.current.value
-
-        }
+            password: passswordRef.current.value,
+        };
         console.log(payload);
-        axiosClient.post('/signup', payload)
+        axiosClient
+            .post("/signup", payload)
             .then(({ data }) => {
-                setToken(data.token)
-                setUser(data.user)
+                setToken(data.token);
+                setUser(data.user);
                 console.log(data);
             })
-            .catch(err => {
+            .catch((err) => {
                 const response = err.response;
                 if (response && response.status === 422) {
-                    setErrors(response.data.errors)
+                    setErrors(response.data.errors);
                 }
-            })
-    }
-
+            });
+    };
 
     return (
         <div className="w-full h-screen flex bg-violet-200 justify-center items-center ">
-            <form action="" className="w-full sm:w-[300px] bg-violet-800 px-4 py-8 shadow space-y-6" onSubmit={onSubmit}>
-                <h1 className="text-xl font-semibold text-white text-center">Sign up</h1>
-                {errors && <div className="bg-white">
-
-                    {Object.keys(errors).map(index => (
-                        <span key={index} className="text-red-700">
-                            {errors[index][0]}
-                        </span>
-                    ))}
-                </div>
-                }
+            <form
+                action=""
+                className="w-full sm:w-[300px] bg-violet-800 px-4 py-8 shadow space-y-6"
+                onSubmit={onSubmit}
+            >
+                <h1 className="text-xl font-semibold text-white text-center">
+                    Sign up
+                </h1>
+                {errors && (
+                    <div className="bg-white">
+                        {Object.keys(errors).map((index) => (
+                            <span key={index} className="text-red-700">
+                                {errors[index][0]}
+                            </span>
+                        ))}
+                    </div>
+                )}
                 <div>
                     <input
                         ref={firstNameRef}
@@ -92,7 +95,11 @@ export default function Signup() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                    <Link to="/login">  <span className="text-sm text-gray-400 hover:underline">Login</span>
+                    <Link to="/login">
+                        {" "}
+                        <span className="text-sm text-gray-400 hover:underline">
+                            Login
+                        </span>
                     </Link>
                 </div>
                 <div>
@@ -105,5 +112,5 @@ export default function Signup() {
                 </div>
             </form>
         </div>
-    )
+    );
 }
