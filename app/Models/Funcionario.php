@@ -17,6 +17,7 @@ class Funcionario extends Model
         'id_departamento',
         'telefone',
         'email',
+        'image',
     ];
 
     public function departamento()

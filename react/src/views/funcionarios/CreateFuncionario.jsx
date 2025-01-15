@@ -19,53 +19,62 @@ export default function CreateFuncionario() {
     const telefoneREF = useRef();
     const cargoREF = useRef();
     const entradaREF = useRef();
+    const imageREF = useRef();
     const navigate = useNavigate();
 
     const NovoFuncionario = (ev) => {
         ev.preventDefault();
         setLoading(true);
 
-        const payload = {
-            nome: nomeREF.current.value,
-            salario: salarioREF.current.value,
-            id_departamento: departamentoREF.current.value,
-            email: emailREF.current.value,
-            telefone: telefoneREF.current.value,
-            cargo: cargoREF.current.value,
-            data_entrada: entradaREF.current.value,
-        };
+        const file = imagemREF.current.files[0];
+        if (file) {
+            const reader = new FileReader();
 
-        //console.log(payload);
+            reader.onloadend = () => {
+                const base64data = reader.result.split(",")[1]; // Pega o código base64
 
-        axiosClient
-            .post("/funcionarios", payload)
-            .then((data) => {
-                navigate("/funcionarios");
-                console.log(data);
-                setLoading(false);
-            })
-            .catch((data) => {
-                const response = data.response;
+                const payload = {
+                    nome: nomeREF.current.value,
+                    salario: salarioREF.current.value,
+                    id_departamento: departamentoREF.current.value,
+                    email: emailREF.current.value,
+                    telefone: telefoneREF.current.value,
+                    cargo: cargoREF.current.value,
+                    data_entrada: entradaREF.current.value,
+                    image: base64data, // Adiciona a imagem codificada em base64
+                };
 
-                if (response && response.status === 500) {
-                    setErros("Falha no servidor, tente recarregar a página");
-                }
-                if (response && response.status === 422) {
-                    setErros(response.data.errors);
-                }
-                if (data.code === "ERR_NETWORK") {
-                    console.log("NETWORK ERROR");
-                    setNetworkError(
-                        "Falha na conexão com o servidor - verifique a internet!"
-                    );
-                }
+                axiosClient
+                    .post("/funcionarios", payload)
+                    .then((data) => {
+                        navigate("/funcionarios");
+                        console.log(data);
+                        setLoading(false);
+                    })
+                    .catch((data) => {
+                        const response = data.response;
 
-                setLoading(false);
-            })
+                        if (response && response.status === 500) {
+                            setErros(
+                                "Falha no servidor, tente recarregar a página"
+                            );
+                        }
+                        if (response && response.status === 422) {
+                            setErros(response.data.errors);
+                        }
+                        if (data.code === "ERR_NETWORK") {
+                            console.log("NETWORK ERROR");
+                            setNetworkError(
+                                "Falha na conexão com o servidor - verifique a internet!"
+                            );
+                        }
 
-            .finally(() => {
-                setLoading(false);
-            });
+                        setLoading(false);
+                    });
+            };
+
+            reader.readAsDataURL(file); // Converte o arquivo para base64
+        }
     };
 
     useEffect(() => {
@@ -184,6 +193,17 @@ export default function CreateFuncionario() {
                         <div className="absolute t-0 w-full text-sm text-neutral-500 peer-focus:text-primary dark:text-neutral-200 dark:peer-focus:text-primary">
                             Entrada na empresa
                         </div>
+                    </div>
+                </div>
+                <div className="flex gap-1 items-center">
+                    <div className="w-1/2">
+                        <input
+                            type="file"
+                            ref={imageREF}
+                            accept="image/*"
+                            className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                            placeholder="Select Image"
+                        />
                     </div>
                 </div>
 
