@@ -11,6 +11,8 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "jspdf": "^2.5.2",
+        "jspdf-autotable": "^3.8.4",
         "react-modal": "^3.16.3",
         "react-model": "^4.3.1"
     }
