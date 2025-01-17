@@ -45,16 +45,38 @@ export const CompleteForm = ({ funcionario }) => {
     const onSubmit = async (ev) => {
         ev.preventDefault();
         setLoading(true);
+        const funcionarioId = 1; // Supondo que 1 é o ID do funcionário; substitua conforme necessário
+        const url = `http://localhost:8000/api/funcionarios/${funcionarioId}`; // URL correta para atualizar
+
         try {
-            // Enviar dados para o backend
-            await axios.post("/api/employees", formData);
+            // Necessita de Headers, como o token de autenticação, se autenticado pela API
+            await axios.put(url, formData, {
+                headers: {
+                    // Autenticação se for necessário, substitua `yourAuthToken` pelo token real
+                    Authorization: "Bearer $token",
+                    "Content-Type": "application/json",
+                },
+            });
             alert("Perfil atualizado com sucesso!");
-            // Fechar a aba ou redirecionar
-            window.close(); // Fechar a aba
-            // window.location.href = "/nova-pagina"; // Redirecionar para outra página (altere conforme necessário)
+            window.close();
         } catch (error) {
-            console.error("Houve um erro ao atualizar o perfil!", error);
-            alert("Erro ao atualizar perfil.");
+            console.error(
+                "Erro ao atualizar perfil:",
+                error.response || error.message
+            );
+            if (error.response) {
+                alert(
+                    `Erro ao atualizar perfil: ${
+                        error.response.data.message || "Erro desconhecido"
+                    }`
+                );
+            } else if (error.request) {
+                alert(
+                    "Erro ao atualizar perfil: Nenhuma resposta do servidor."
+                );
+            } else {
+                alert("Erro ao atualizar perfil: Configuração incorreta.");
+            }
         } finally {
             setLoading(false);
         }
