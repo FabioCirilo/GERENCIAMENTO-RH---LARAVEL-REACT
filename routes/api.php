@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InvoicePdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\http\Controllers\Api\AuthController;
@@ -21,6 +22,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/departmentos', DepartamentoController::class);
     Route::apiResource('/pontos', PontosController::class);
     Route::post('/departamento/assign-user', [DepartamentoController::class, 'assignUser'],);
-
+    Route::get('/funcionarios/{id}/ficha-tecnica', [InvoicePdf::class, 'generateFichaTecnica']);
 
 });

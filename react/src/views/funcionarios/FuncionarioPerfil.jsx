@@ -49,18 +49,33 @@ export default function FuncionarioPerfil() {
     };
 
     const downloadPDF = () => {
-        const doc = new jsPDF();
+        const url = `http://localhost:8000/api/funcionarios/${id}/ficha-tecnica`;
 
-        doc.text("Ficha Técnica - Funcionário", 20, 20);
-        doc.text(`Nome: ${funcionario.nome}`, 20, 40);
-        doc.text(`Cargo: ${funcionario.cargo}`, 20, 50);
-        doc.text(`Departamento: ${funcionario.departamento.nome}`, 20, 60);
-        doc.text(`Email: ${funcionario.email}`, 20, 70);
-        doc.text(`Telefone: ${funcionario.telefone}`, 20, 80);
-        doc.text(`Data de Entrada: ${funcionario.data_entrada}`, 20, 90);
-
-        // Save the PDF
-        doc.save("ficha_tecnica.pdf");
+        // Faça uma solicitação GET para obter o PDF
+        axiosClient
+            .get(url, { responseType: "blob" })
+            .then((response) => {
+                // Cria um link no DOM e simula o clique para download
+                const fileURL = window.URL.createObjectURL(
+                    new Blob([response.data])
+                );
+                const fileLink = document.createElement("a");
+                fileLink.href = fileURL;
+                fileLink.setAttribute(
+                    "download",
+                    `ficha_tecnica_${funcionario.id}.pdf`
+                );
+                document.body.appendChild(fileLink);
+                fileLink.click();
+                fileLink.remove();
+            })
+            .catch((error) => {
+                console.error(
+                    "Erro ao baixar ficha:",
+                    error.response || error.message
+                );
+                alert("Não foi possível baixar a ficha.");
+            });
     };
 
     const displayData = () => {
