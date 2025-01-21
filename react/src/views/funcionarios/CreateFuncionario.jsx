@@ -26,7 +26,7 @@ export default function CreateFuncionario() {
         ev.preventDefault();
         setLoading(true);
 
-        const file = imagemREF.current.files[0];
+        const file = imageREF.current.files[0];
         if (file) {
             const reader = new FileReader();
 

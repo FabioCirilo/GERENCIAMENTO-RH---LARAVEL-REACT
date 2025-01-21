@@ -83,21 +83,54 @@ class PontosController extends Controller
 
     public function store(Request $request)
     {
-
+        $validatedData = $request->validate([
+            'id_funcionario' => 'required|exists:funcionarios,id',
+            'entrada' => 'nullable|date_format:H:i',
+            'saida' => 'nullable|date_format:H:i|after:entrada',
+        ]);
+    
+        $ponto = new Pontos();
+        $ponto->id_funcionario = $validatedData['id_funcionario'];
+        $ponto->entrada = $validatedData['entrada'] ?? null;
+        $ponto->saida = $validatedData['saida'] ?? null;
+        $ponto->save();
+    
+        return new PontosResource($ponto);
     }
 
     public function show(string $id)
     {
-        //
+        $ponto = Pontos::findOrFail($id);
+        return new PontosResource($ponto);
     }
 
     public function update(Request $request, string $id)
     {
-        //
+        $ponto = Pontos::findOrFail($id);
+    
+        $validatedData = $request->validate([
+            'entrada' => 'nullable|date_format:H:i',
+            'saida' => 'nullable|date_format:H:i|after:entrada',
+        ]);
+
+        if (isset($validatedData['entrada'])) {
+            $ponto->entrada = $validatedData['entrada'];
+        }
+        
+        if (isset($validatedData['saida'])) {
+            $ponto->saida = $validatedData['saida'];
+        }
+
+        $ponto->save();
+
+        return new PontosResource($ponto);
     }
 
     public function destroy(string $id)
     {
-        //
+        $ponto = Pontos::findOrFail($id);
+        $ponto->delete();
+
+        return response()->json(['message' => 'Registro removido com sucesso.'], 200);
     }
 }
