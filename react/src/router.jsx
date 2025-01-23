@@ -12,6 +12,8 @@ import DepartamentoFuncionarios from "./views/departamentos/DepartamentoFunciona
 import FormDepartamento from "./views/departamentos/FormDepartamento";
 import NOtFund from "./components/NOtFund";
 import Pontos from "./views/ponto/pontos";
+import Users from "./views/User/users";
+import UsersPerfil from "./views/User/perfil";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
             {
                 path: "/funcionarios",
                 element: <Funcionarios />,
+            },
+            {
+                path: "/users",
+                element: <Users />,
+            },
+            {
+                path: "/User/:id",
+                element: <UsersPerfil />,
             },
             {
                 path: "/funcionario/novo",

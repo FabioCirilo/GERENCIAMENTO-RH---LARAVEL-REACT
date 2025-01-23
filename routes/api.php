@@ -7,6 +7,7 @@ use App\http\Controllers\Api\AuthController;
 use App\http\Controllers\Api\FuncionarioController;
 use App\http\Controllers\Api\DepartamentoController;
 use App\http\Controllers\Api\PontosController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\ConfigurarResponsavelController;
 
 // Authentication
@@ -15,6 +16,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // Authenticated rule 1
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/users', [UserController::class, 'index']);
     Route::get('/user', function (Request $request)  {return $request->user();});
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/departamanto_funcionarios', [DepartamentoController::class , 'departamanto_funcionarios']);

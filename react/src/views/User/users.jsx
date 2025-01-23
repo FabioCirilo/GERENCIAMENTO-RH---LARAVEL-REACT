@@ -3,44 +3,44 @@ import Cards from "../../components/dashboard/Cards.jsx";
 import axiosClient from "../../axios-client";
 import { Link } from "react-router-dom";
 
-export default function Funcionarios() {
-    const [funcionarios, setFuncionario] = useState([]);
-    const [Loading, setLoading] = useState(false);
+export default function Users() {
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState(null);
     const [total, setTotal] = useState(0);
 
     useEffect(() => {
-        getFuncionarios();
+        getUsers();
     }, []);
 
-    const onDelete = (funcionar) => {
+    const onDelete = (user) => {
         if (
             !window.confirm(
-                "Are you sure want to delete " + funcionar.nome + "?"
+                "Are you sure want to delete " + user.firstName + "?"
             )
         ) {
             return;
         }
 
         axiosClient
-            .delete(`/funcionarios/${funcionar.id}`)
+            .delete(`/users/${user.id}`)
             .then((data) => {
                 console.log(data);
-                getFuncionarios();
+                getUsers();
             })
             .catch((err) => {
                 console.log(err);
             });
     };
 
-    const getFuncionarios = () => {
+    const getUsers = () => {
         setLoading(true);
 
         axiosClient
-            .get("/funcionarios")
+            .get("/users")
             .then(({ data }) => {
                 console.log(data);
-                setFuncionario(data.data);
+                setUsers(data.data);
                 setTotal(data.meta.total);
                 setLoading(false);
             })
@@ -49,7 +49,10 @@ export default function Funcionarios() {
                 console.log(data);
                 if (err && err.status === 404) {
                     console.log(404);
-                    setErrors("Não foi possível carregar os funcionários!");
+                    setErrors(
+                        "Não foi possível carregar os usuários!",
+                        err.message
+                    );
                 }
                 if (data.code === "ERR_NETWORK") {
                     console.log("NETWORK ERROR");
@@ -61,32 +64,13 @@ export default function Funcionarios() {
             });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        // Chamada à função criarFuncionario passando os dados do formulário
-        criarFuncionario(formData)
-            .then(() => alert("Funcionário cadastrado com sucesso!"))
-            .catch((err) =>
-                console.error("Erro ao cadastrar funcionário:", err)
-            );
-    };
-
     return (
         <div className="py-4 px-8">
             <div className="flex justify-between items-center">
                 <h1 className="text-gray-500 text-[30px] font-light py-4 dark:text-white">
-                    Listagem dos Funcionários{" "}
+                    Listagem de Usuários{" "}
                     <span className="text-gray-400 text-base"> ({total})</span>
                 </h1>
-                <div className="py-4">
-                    <Link
-                        to="/funcionario/novo"
-                        className="text-white bg-violet-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-                    >
-                        Novo +
-                    </Link>
-                </div>
             </div>
 
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -94,16 +78,10 @@ export default function Funcionarios() {
                     <thead className="text-xs text-gray-700 bg-gray-200 uppercase  dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" className="px-4 py-3">
-                                Nome
+                                First Name
                             </th>
                             <th scope="col" className="px-4 py-3">
-                                Cargo
-                            </th>
-                            <th scope="col" className="px-4 py-3">
-                                Salário
-                            </th>
-                            <th scope="col" className="px-4 py-3">
-                                Departamento
+                                Last Name
                             </th>
                             <th scope="col" className="px-4 py-3">
                                 Email
@@ -112,7 +90,7 @@ export default function Funcionarios() {
                         </tr>
                     </thead>
 
-                    {Loading && (
+                    {loading && (
                         <tbody>
                             <tr>
                                 <td
@@ -136,39 +114,29 @@ export default function Funcionarios() {
                             </tr>
                         </tbody>
                     )}
-                    {!Loading && (
+                    {!loading && (
                         <tbody>
-                            {funcionarios.map((funcionar) => (
+                            {users.map((user) => (
                                 <tr
-                                    key={funcionar.id}
+                                    key={user.id}
                                     className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
                                 >
                                     <td className="px-6 py-4 hover:underline cursor-pointer">
-                                        {funcionar.nome}
+                                        {user.firstName}
                                     </td>
                                     <td className="px-3 py-4">
-                                        {funcionar.cargo}
+                                        {user.lastName}
                                     </td>
-                                    <td className="px-3 py-4">
-                                        {funcionar.salario} kzs
-                                    </td>
-                                    <td className="px-3 py-4">
-                                        {funcionar.departamento.nome}
-                                    </td>
-                                    <td className="px-3 py-4">
-                                        {funcionar.email}
-                                    </td>
+                                    <td className="px-3 py-4">{user.email}</td>
                                     <td className="px-6 py-4 flex gap-2">
                                         <Link
-                                            to={`/funcionario/${funcionar.id}`}
+                                            to={`/user/${user.id}`}
                                             className="font-medium text-white p-2  bg-blue-600 dark:text-white hover:underline"
                                         >
                                             <span>ver</span>
                                         </Link>
                                         <button
-                                            onClick={(ev) =>
-                                                onDelete(funcionar)
-                                            }
+                                            onClick={(ev) => onDelete(user)}
                                             className="font-medium text-white p-2  bg-red-600 dark:text-white hover:underline"
                                         >
                                             <span>delete</span>

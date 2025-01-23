@@ -132,6 +132,16 @@ export default function DefaultLayout() {
                                 </span>
                             </li>
                         </Link>
+                        <Link to="/users">
+                            <li>
+                                <span className="flex items-center p-2 text-white hover:text-gray-500 dark:hover:text-white rounded-lg dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                    <Users2 className="flex-shrink-0 w-5 h-5 text-white transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                                    <span className="flex-1 ml-3 whitespace-nowrap">
+                                        Usuários
+                                    </span>
+                                </span>
+                            </li>
+                        </Link>
                         <Link to="/departamentos">
                             <li>
                                 <span className="flex items-center p-2 text-white hover:text-gray-500 dark:hover:text-white rounded-lg dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -222,7 +232,10 @@ export default function DefaultLayout() {
                 <nav className="w-full">
                     <ul className="flex gap-4 items-center justify-end bg-white dark:bg-gray-700 shadow-md py-4 px-8">
                         <li>
-                            <a href="#" className="flex items-center gap-2">
+                            <Link
+                                to="/User/:id"
+                                className="flex items-center gap-2"
+                            >
                                 <span className="text-slate-900 dark:text-slate-300">
                                     {user.firstName} <br />
                                 </span>
@@ -236,7 +249,7 @@ export default function DefaultLayout() {
                                     )}
                                     <span className="top-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
                                 </div>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </nav>
