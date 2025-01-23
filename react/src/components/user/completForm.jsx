@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { MoveRight } from "lucide-react";
 
-export const CompleteForm = ({ funcionario }) => {
+export const CompleteForm = ({ user }) => {
     const [Loading, setLoading] = useState(false);
     const [ProfileImg, setProfileImg] = useState(null);
     const [ImgError, setImagError] = useState(null);

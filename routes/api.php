@@ -17,7 +17,10 @@ Route::post('/login', [AuthController::class, 'login']);
 // Authenticated rule 1
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/users', [UserController::class, 'index']);
-    Route::get('/user', function (Request $request)  {return $request->user();});
+    Route::get('/users/{id}', [UserController::class, 'show']);
+    Route::get('/user', function (){
+        return auth()->user();
+    });
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/departamanto_funcionarios', [DepartamentoController::class , 'departamanto_funcionarios']);
     Route::apiResource('/funcionarios', FuncionarioController::class);

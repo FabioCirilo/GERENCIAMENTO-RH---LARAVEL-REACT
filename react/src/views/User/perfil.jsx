@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Resume } from "../../components/funcionario/ficha/resume.jsx";
 import axiosClient from "../../axios-client.js";
 import { useParams } from "react-router-dom";
 import jsPDF from "jspdf";
 import "jspdf-autotable"; // Importa plugin para tabelas
 import { CompleteForm } from "../../components/user/completForm.jsx";
+import { Resume } from "../../components/user/resume.jsx";
 
 export default function UsersPerfil() {
     const Tabs = ["Resumo", "Editar perfil"];
@@ -47,6 +47,10 @@ export default function UsersPerfil() {
                 setLoading(false);
             });
     };
+
+    const ErrorComponent = ({ errors }) => (
+        <div className="text-red-500">{errors}</div>
+    );
 
     const downloadPDF = () => {
         const url = `http://localhost:8000/api/users/${id}/ficha-tecnica`;
@@ -126,7 +130,7 @@ export default function UsersPerfil() {
 
                         <div className="text-center">
                             <h4 className="text-[#2c384e] dark:text-slate-300 text-[20px] ">
-                                {user.nome}
+                                {user.firstName}
                             </h4>
                             <span className="dark:text-slate-400">
                                 {user.email}
